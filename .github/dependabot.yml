@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "npm" # Cambia "npm" según tu ecosistema de dependencias (pip, maven, etc.)
+    directory: "/" # Directorio raíz del proyecto
+    schedule:
+      interval: "weekly" # Puede ser "daily", "weekly", o "monthly"
