@@ -73,6 +73,7 @@ public class VentanaJListNumero extends JFrame implements ActionListener {
 		txtNumero.setText("0");
 		panel.add(txtNumero);
 		txtNumero.setColumns(10);
+		txtNumero.addActionListener(this);
 		
 		btnInsertar = new JButton("Insertar");
 		panel.add(btnInsertar);
@@ -112,16 +113,26 @@ public class VentanaJListNumero extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent evento) {
 		Object botonseleccionado = evento.getSource();
-		if (botonseleccionado == btnInsertar) {
+		if (botonseleccionado == btnInsertar || botonseleccionado == txtNumero) {
 
-			String texto = txtNumero.getText();
-			int numero = Integer.parseInt(texto);
-
+			
 			//MENSAJE SI NO HAY TEXTO EN EL CAMPO
 			if (txtNumero.getText().trim().isEmpty()) {
 				JOptionPane.showMessageDialog(this, "No se ha introducido ningun numero", "Error", JOptionPane.ERROR_MESSAGE);
 				return;//salir del bloque
 			}
+			
+			String texto = txtNumero.getText();
+			int numero = Integer.parseInt(texto);
+			
+			//MENSAJE SI ES MENOR QUE 0
+			if (numero < 0) {
+				JOptionPane.showMessageDialog(this, "El numero no puede ser menor a 0", "Error", JOptionPane.ERROR_MESSAGE);
+				return;//salir del bloque
+				
+			}
+
+		
 			// VERIFICAR SI ESTA EN LA LISTA
 			if (dlm.contains(numero)) {
 				JOptionPane.showMessageDialog(this, "Error, el numero 	" + numero + " ya ha sido introducido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -131,29 +142,31 @@ public class VentanaJListNumero extends JFrame implements ActionListener {
 			
 			//INSERTAR DE MANERA ORDENADA
 			//LOGICA PARA BUSCAR LA POSICION CORRESPONDIENTE PARA EL NUMERO
+			//METODO 1
+//			int indice = 0;
+//			int numeroElementos = dlm.size();
+//			while (indice < numeroElementos) {
+//				int numeroLista = dlm.get(indice);
+//				if (numero > numeroLista) {
+//					indice++;
+//				}
+//				else {break;}
+//				
+//			}
+//			dlm.add(indice,numero);
 			
-			int posicion = 0;
-			int numerosElementos = dlm.size();
-			int numeroLista;
-			while (posicion < numerosElementos) {
-				
-				numeroLista = dlm.get(posicion);
-				if (numero < numeroLista) {
-					break;
-				}
-				posicion++;
-			}
-			dlm.add(posicion, numero);
-			
-			
-			
+			//METODO 2  // si quieres ascendente el numero >, descendente el numero <
+			/*OTRA FORMA ES CREAR UNA VARIABLE BOOLEANA Y ANIADIR UNA CONDICION SI ES TRUE O FOLSE */
 			int indice = 0;
-			while (indice < dlm.size() && dlm.get(indice) < numero) {
+			boolean ordenAscendente = true; //cambiar a folse si quieres descendente
+			while (indice < dlm.size() && 
+					((ordenAscendente && numero > dlm.get(indice)) || 
+					(!ordenAscendente && numero < dlm.get(indice)))) {
 				indice++;
-			}
-			this.dlm.add(indice, numero);
+				
+			} 
 			//INGRESAR NUMERO
-			//this.dlm.addElement(numero);
+			this.dlm.add(indice, numero);
 		}
 		
 		
