@@ -101,14 +101,21 @@ public class VentanaJListNumero extends JFrame implements ActionListener {
 		
 		list = new JList();
 		panel_1.add(list);
-		//DatosdePrueba();
+		DatosdePrueba();
 	}
 	public void DatosdePrueba() {
-		dlm.addElement(1);
-		dlm.addElement(5);
-		dlm.addElement(9);
-		dlm.addElement(10);
+		//txtNumero.setText(String.valueOf(valor)); por si el arreglo seria tipo int
 		
+	    // Valores de prueba que deseas agregar
+	    String[] valoresDePrueba = {"1", "5", "9", "10", "-1"};
+	    
+	    for (String valor : valoresDePrueba) {
+	        // Establecer el valor en el campo de texto de la ventana
+	        txtNumero.setText(valor);
+	        
+	        // Simular un clic en el botón insertar
+	        btnInsertar.doClick();
+	    }
 	}
 	@Override
 	public void actionPerformed(ActionEvent evento) {
@@ -206,13 +213,3 @@ public class VentanaJListNumero extends JFrame implements ActionListener {
 
 	
 }
-/*		Object botonseleccionado = evento.getSource();
-		if(botonseleccionado == btnInsertar) {
-			int num = Integer.parseInt(txtNumero.getText());
-			dlm.addElement(num);
-		}else if(botonseleccionado == btnBorrar) {
-			int num = Integer.parseInt(txtNumero.getText());
-			dlm.removeElement(num);
-		}else if(botonseleccionado == btnLimpiar) {
-			dlm.clear();
-		}*/
