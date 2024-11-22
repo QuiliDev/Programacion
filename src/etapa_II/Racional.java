@@ -2,7 +2,7 @@ package etapa_II;
 
 import java.util.Objects;
 
-public class Racional  implements Comparable<Racional>{
+public class Racional implements Comparable<Racional>{
 
 	private int numerador;	// Numerador
 	private int denominador;	// Denominador
@@ -10,7 +10,7 @@ public class Racional  implements Comparable<Racional>{
 	// Constructor
 	public Racional() {
 		this.numerador = 0;
-		this.denominador = 1;
+		this.denominador = 0;
 	}
 	
 	//Constructor de copia
@@ -158,6 +158,7 @@ public class Racional  implements Comparable<Racional>{
 
 	@Override
 	public int compareTo(Racional o) {
+		
 		if (this.numerador * o.denominador > this.denominador * o.numerador) {
 			return 1;
 		}

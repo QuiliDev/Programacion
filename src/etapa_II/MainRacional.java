@@ -9,6 +9,17 @@ public class MainRacional {
 		Racional r2 = new Racional (r1);
 		System.out.println("Racional 2: " + r2.toString());
 		//r2.factorial(4);
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		Racional r5 = new Racional();
 		r5.setNumerador(21);
 		r5.setDenominador(3);
