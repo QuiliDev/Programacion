@@ -6,7 +6,7 @@ public class MainRacional {
 		System.out.println("Racional 1: " + r1);
 		
 
-		Racional r2 = new Racional (r1);
+		Racional r2 = new Racional(r1);
 		System.out.println("Racional 2: " + r2.toString());
 		//r2.factorial(4);
 	
