@@ -24,8 +24,7 @@ public class PersonaMain {
 		else {
 			System.out.println("Son diferentes");
 		}
-
-		
+	
 		if (p2.compareTo(p3) > 0) {
 			System.out.println(p2.getDni()+" es mayor que "+p3.getDni());
 		}
