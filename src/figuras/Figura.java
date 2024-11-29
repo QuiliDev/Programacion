@@ -8,8 +8,13 @@ public abstract class Figura {
 	
 	//Constructor por parametro
 	public Figura() {
-		this.x = 1;
-		this.y = 1;
+		x = 1;
+		y = 1;
+	}
+	
+	public Figura(Figura c) {
+		this.x = c.x;
+		this.y = c.y;
 	}
 	
 	public Figura (int x, int y) {
@@ -21,5 +26,8 @@ public abstract class Figura {
 		return 0;
 	};
 	
+	public String toString() {
+		return "Cordenada de la Figura: " + "(" + x + "," + y + ")\n";
+	}
 	
 }

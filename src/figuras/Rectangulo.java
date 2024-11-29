@@ -4,6 +4,18 @@ public class Rectangulo extends Figura {
 	protected double ancho;
 	protected double alto;
 
+	public Rectangulo() {
+		super();
+		ancho = 1.0;
+		alto = 1.0;
+	};
+	
+	public Rectangulo(Rectangulo c) {
+		super();
+		this.ancho = c.ancho;
+		this.alto = c.alto;
+	};
+	
 	public Rectangulo(double ancho, double alto) {
 		super();
 		this.ancho = ancho;
@@ -20,7 +32,16 @@ public class Rectangulo extends Figura {
 
 	@Override
 	public double calcularArea() {
-		return x * y;
+		return ancho * alto;
+	}
+	
+	@Override
+	public String toString() {
+		return "Cordenada de la Figura[Rectangulo]: " + "(" + x + "," + y + ")\n"+
+				"Ancho: " + ancho + "\n"+
+				"Alto: " + alto + "\n"
+				+ "Area: " + calcularArea() + "\n"
+				;
 	}
 }
 
