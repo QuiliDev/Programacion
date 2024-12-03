@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -74,7 +75,7 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 	public VentanaJListPersonas() {
 		setTitle("VentanaJListPersonas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1032, 221);
+		setBounds(100, 100, 1350, 221);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -152,8 +153,10 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 		
 		btnOrdenar = new JButton("Ordenar");
 		panel.add(btnOrdenar);
+		btnOrdenar.addActionListener(this);
 		
 		cmbOrdenar = new JComboBox<String>();
+		cmbOrdenar.addItem("Seleccionar...");
 		cmbOrdenar.addItem("DNI");
 		cmbOrdenar.addItem("Nombre");
 		cmbOrdenar.addItem("Apellidos");
@@ -190,6 +193,9 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 		lblTotalElementosValor.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(lblTotalElementosValor);
 		
+		//DATOS DE PRUEBA
+		DatosdePrueba();
+		
 	}
 	
 	//METODO PARA CALCULAR EL TOTAL DE ELEMENTOS
@@ -197,6 +203,66 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 		int totalElementos = dlm.size();
 		return totalElementos;
 		
+	}
+	
+	//METODO PARA ORDENAR LA LISTA SEGUN UNA COLUMNA
+	public void ordenar() {
+		String columna = (String) cmbOrdenar.getSelectedItem();
+		boolean ascendente = rbtAscendente.isSelected();
+		
+		
+		
+	}
+	
+	public ArrayList<Persona> obtenerListaPersonas() {
+	    ArrayList<Persona> lista = new ArrayList<Persona>();
+	    // Llenar el ArrayList con las personas del DefaultListModel
+	    for (int i = 0; i < dlm.size(); i++) {
+	        lista.add(dlm.get(i));
+	    }
+	    return lista;
+	}
+
+	private void ordenarPersonas(String criterio, boolean ascendente) {
+	    // Obtener el ArrayList de personas
+	    ArrayList<Persona> listaPersonas = obtenerListaPersonas(); // Asegúrate de tener un método para obtener el ArrayList
+	    
+	    // Elegir el criterio de comparación
+	    switch (criterio) {
+	        case "DNI":
+	            // Ordenar por DNI usando el método compareTo
+	            listaPersonas.sort((p1, p2) -> p1.getDni().compareTo(p2.getDni()));
+	            break;
+	        case "Nombre":
+	            // Ordenar por Nombre
+	            listaPersonas.sort((p1, p2) -> p1.getNombre().compareTo(p2.getNombre()));
+	            break;
+	        case "Apellidos":
+	            // Ordenar por Apellidos
+	            listaPersonas.sort((p1, p2) -> p1.getApellido().compareTo(p2.getApellido()));
+	            break;
+	        case "Fecha":
+	            // Ordenar por Fecha de Nacimiento
+	            listaPersonas.sort((p1, p2) -> p1.getFechaNacimiento().compareTo(p2.getFechaNacimiento()));
+	            break;
+	        default:
+	            throw new IllegalArgumentException("Criterio de ordenación no válido");
+	    }
+
+	    // Si el orden es descendente, invertir el ArrayList
+	    if (!ascendente) {
+	        Collections.reverse(listaPersonas);
+	    }
+
+	    // Actualizar el modelo de la lista
+	    actualizarModeloLista(listaPersonas);
+	}
+
+	private void actualizarModeloLista(ArrayList<Persona> personas) {
+	    dlm.clear();
+	    for (Persona persona : personas) {
+	        dlm.addElement(persona);
+	    }
 	}
 
 	@Override
@@ -264,8 +330,9 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 				}
 				dlm.add(indice, persona1);
 			}	
+			//ACTUALIZAR EL TOTAL
 			lblTotalElementosValor.setText(String.valueOf(calcularTotalElementos()));
-			//lblTotalSumaValor.setText(calcularTotalSuma().toString());
+
 		}
 		
 		//BOTON BORRAR 
@@ -281,20 +348,15 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 				return;//salir del bloque
 			}
 			
-			 // GUARDAR LOS ELEMENTOS SELECCIONADOS EN UNA LISTA
-		    ArrayList<Persona> ArraylistSeleccionados = new ArrayList<Persona>();
-		    for (int i = 0; i < Arregloseleccionados.length; i++) {
-		        // Obtener el índice de cada elemento seleccionado
-		        Persona personaSeleccionada = dlm.getElementAt(Arregloseleccionados[i]);
-		        ArraylistSeleccionados.add(personaSeleccionada);
-		    }
-			
 			//BORRAR LOS ELEMENTOS SELECCIONADOS
 			for (int i = Arregloseleccionados.length -1; i>= 0; i--) {
 				dlm.remove(Arregloseleccionados[i]);
-		        JOptionPane.showMessageDialog(this, "Elementos eliminados con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);			
-			}
-
+		        }
+			JOptionPane.showMessageDialog(this, "Elementos eliminados con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);			
+			//ACTUALIZAR EL TOTAL
+			lblTotalElementosValor.setText(String.valueOf(calcularTotalElementos())); // Actualiza el total
+			
+			
 		}
 		else if (botonSeleccionado == btnLimpiar) {
 			if (dlm.isEmpty()) {
@@ -305,8 +367,68 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 		        
 			}
 			
+			//ACTUALIZAR EL TOTAL
+			lblTotalElementosValor.setText(String.valueOf(calcularTotalElementos())); // Actualiza el total
+			
+		}
+		//BOTON ORDENAR
+		
+		// Verificar si el criterio seleccionado es "Seleccionar..."
+		else if (cmbOrdenar.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado un criterio de ordenamiento", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si no se ha seleccionado un criterio
+        }
+		
+		// Verificar si no se ha seleccionado ninguno de los JRadioButton (Ascendente o Descendente)
+		else if (!rbtAscendente.isSelected() && !rbtDescendente.isSelected()) {
+		    JOptionPane.showMessageDialog(null, "Debe seleccionar un orden (Ascendente o Descendente)", "Error", JOptionPane.ERROR_MESSAGE);
+		    return;  // Salir del método si no se ha seleccionado un orden
+		}
+
+		
+        // Verificar si la lista está vacía
+        else if(dlm.isEmpty()) {
+	    	JOptionPane.showMessageDialog(this, "La Lista no tiene elementos por ordenar", "Error", JOptionPane.ERROR_MESSAGE);	 
+	    }
+		else if (botonSeleccionado == btnOrdenar) {
+		    // Obtener el criterio seleccionado en el ComboBox
+		    String criterio = (String) cmbOrdenar.getSelectedItem();
+		    
+		    // Obtener la dirección de ordenamiento
+		    boolean ascendente = rbtAscendente.isSelected();
+
+		    // Llamar al método para ordenar la lista
+		    ordenarPersonas(criterio, ascendente);
+		    //No se ha seleccionado un criterio
 		}
 		
 	}
-
+	
+	public void DatosdePrueba() {
+		//txtNumero.setText(String.valueOf(valor)); por si el arreglo seria tipo int
+		
+	    // Valores de prueba que deseas agregar
+	    String[] DNIPrueba = {"ABC1", "ABC2", "ABC3", "ABC4", "ABC5"};
+	    String[] NombrePrueba = {"Pedro", "Juan", "Raul", "Marta", "Raul"};
+	    String[] ApellidoPrueba = {"Perez", "Gomez", "Lopez", "Garcia", "Lopez"};
+	    String[] FechaDia = {"11", "12", "13", "13", "13"};
+	    String[] FechaMes = {"1", "2", "3", "4", "5"};
+	    String[] FechaAño = {"2000", "2001", "2002", "2003", "2004"};
+	    	
+	    
+	    
+	    // Asegurarse de que todos los arrays tengan el mismo tamaño
+	    int size = DNIPrueba.length; // Asumimos que todos los arrays tienen el mismo tamaño
+	    for (int i = 0; i < size; i++) {
+	        txtDNI.setText(DNIPrueba[i]);
+	        txtNombre.setText(NombrePrueba[i]);
+	        txtApellidos.setText(ApellidoPrueba[i]);
+	        txtDia.setText(FechaDia[i]);
+	        txtMes.setText(FechaMes[i]);
+	    	txtAño.setText(FechaAño[i]);
+	        
+	        
+	        btnInsertar.doClick();// Simular un clic en el botón insertar
+	    }
+	}
 }

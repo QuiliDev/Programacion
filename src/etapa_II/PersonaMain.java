@@ -18,7 +18,7 @@ public class PersonaMain {
 		System.out.println(p3);
 		
 		
-		if (p2.equals2(p3)) {
+		if (p2.equals(p3)) {
 			System.out.println(p2.getNombre()+" y "+p3.getNombre()+" Son iguales");
 		}
 		else {

@@ -92,26 +92,29 @@ public class Persona implements Comparable<Persona> {
 		return Objects.hash(dni, nombre, apellido, fechaNacimiento);
 	}
 	
-	public boolean equals(Persona objetocomparar) {
-		
-		if (this.dni.equals(objetocomparar.dni)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+//	public boolean equals(Persona objetocomparar) {
+//		
+//		if (this.dni.equals(objetocomparar.dni)) {
+//			return true;
+//		}
+//		else {
+//			return false;
+//		}
+//	}
 	
-	public boolean equals2(Persona objetocomparar) {
+	public boolean equals(Object objetocomparar) {
 		if (this == objetocomparar) {
 			return true; // Si el objeto es el mismo, se considera igual
 		}
+		
 		if (objetocomparar == null) {
 			return false; // Si el objeto es null, se considera diferente
 		}
+		
 		if (getClass() != objetocomparar.getClass()) {
 			return false; // Si el objeto no es de la misma clase, se considera diferente
 		}
+		
 		// Verificar si los atributos son iguales
 		Persona other = (Persona) objetocomparar; // Convertir el objeto a la clase Persona
 		if (dni.equals(other.dni)) {
@@ -120,6 +123,9 @@ public class Persona implements Comparable<Persona> {
 		return false;
 	}
 
+
+	
+	
 	@Override
 	public int compareTo(Persona objetocomparar) {
 		return (this.dni.compareTo(objetocomparar.dni));
