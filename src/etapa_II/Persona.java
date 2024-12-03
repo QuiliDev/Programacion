@@ -78,12 +78,15 @@ public class Persona implements Comparable<Persona> {
 	
 	//METODO DE toString
 	public String toString() {
-		return (("Informacion de la persona: ") +"\n" +("DNI: " + this.dni) +"\n" +
-				("NOMBRE: " + this.nombre)+"\n" +("APELLIDO: " + this.apellido)+"\n" +
-				("FECHA NACIMIENTO: " + this.fechaNacimiento)
-				);
+		return (this.dni + " " + this.nombre + " " + this.apellido + " " + this.fechaNacimiento);
 	}
-	
+//	public String toString() {
+//		return (("Informacion de la persona: ") +"\n" +("DNI: " + this.dni) +"\n" +
+//				("NOMBRE: " + this.nombre)+"\n" +("APELLIDO: " + this.apellido)+"\n" +
+//				("FECHA NACIMIENTO: " + this.fechaNacimiento)
+//				);
+//	}
+//	
 	@Override
 	public int hashCode() {
 		return Objects.hash(dni, nombre, apellido, fechaNacimiento);

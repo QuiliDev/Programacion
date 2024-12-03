@@ -3,6 +3,7 @@ package etapa_II;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -11,10 +12,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+import javax.swing.JRadioButton;
 
 public class VentanaJListPersonas extends JFrame implements ActionListener{
 
@@ -41,6 +45,11 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 	private JTextField txtNombre;
 	private JLabel lblApellidos;
 	private JTextField txtApellidos;
+	private JButton btnOrdenar;
+	private JRadioButton rbtAscendente;
+	private JRadioButton rbtDescendente;
+	private JComboBox<String> cmbOrdenar;
+	private ButtonGroup btnOrdenacion;
 	
 	
 	/**
@@ -131,12 +140,36 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 		
 		btnInsertar = new JButton("Insertar");
 		panel.add(btnInsertar);
+		btnInsertar.addActionListener(this);
 		
 		btnBorrar = new JButton("Borrar");
 		panel.add(btnBorrar);
+		btnBorrar.addActionListener(this);
 		
 		btnLimpiar = new JButton("Limpiar");
 		panel.add(btnLimpiar);
+		btnLimpiar.addActionListener(this);
+		
+		btnOrdenar = new JButton("Ordenar");
+		panel.add(btnOrdenar);
+		
+		cmbOrdenar = new JComboBox<String>();
+		cmbOrdenar.addItem("DNI");
+		cmbOrdenar.addItem("Nombre");
+		cmbOrdenar.addItem("Apellidos");
+		cmbOrdenar.addItem("Fecha");
+		panel.add(cmbOrdenar);
+		
+		rbtAscendente = new JRadioButton("Ascendente");
+		panel.add(rbtAscendente);
+		
+		rbtDescendente = new JRadioButton("Descendente");
+		panel.add(rbtDescendente);
+		
+		//AGRUPAMOS LOS BOTONES
+		btnOrdenacion = new ButtonGroup();
+		btnOrdenacion.add(rbtAscendente);
+		btnOrdenacion.add(rbtDescendente);
 		
 		// creo el modelo de datos de la lista
 		dlm = new DefaultListModel<Persona>();
@@ -158,6 +191,13 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 		panel_1.add(lblTotalElementosValor);
 		
 	}
+	
+	//METODO PARA CALCULAR EL TOTAL DE ELEMENTOS
+	public int calcularTotalElementos() {
+		int totalElementos = dlm.size();
+		return totalElementos;
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent evento) {
@@ -168,31 +208,46 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 			botonSeleccionado == txtApellidos) {
 			
 			//MENSAJE SI NO HAY TEXTO EN EL CAMPO
-			if (txtDNI.getText().isEmpty() || txtNombre.getText().isEmpty()|| txtApellidos.getText().isEmpty()) {
+			if (txtDNI.getText().isEmpty() || 
+				txtNombre.getText().isEmpty()|| 
+				txtApellidos.getText().isEmpty()|| 
+				txtDia.getText().isEmpty()||  
+				txtMes.getText().isEmpty()|| 
+				txtAño.getText().isEmpty() 
+				
+				) {
 				JOptionPane.showMessageDialog(this, "Error al Insertar. El campo Numero no puede estar vacio.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;//salir del bloque
 			}
 			
 			//GUARDAR LOS DATOS EN VARIABLE NUMERADOR Y DENOMINADOR
-			String textonumerador = txtNumerador.getText();
-			String textodenominador = txtDenominador.getText();
+			String textoDNI = txtDNI.getText();
+			String textoNombre = txtNombre.getText();
+			String textoApellidos = txtApellidos.getText();
+			String textoDia = txtDia.getText();
+			String textoMes = txtMes.getText();
+			String textoAño = txtAño.getText();
+			
 			//GUARDAR LOS DATOS EN VARIABLE NUMERADOR Y DENOMINADOR Y PASAR A ENTERO
-			int numerador = Integer.parseInt(textonumerador);
-			int denominador = Integer.parseInt(textodenominador);
+			int FechaDia = Integer.parseInt(textoDia);
+			int FechaMes = Integer.parseInt(textoMes);
+			int FechaAño = Integer.parseInt(textoAño);
+			
 			//CONSTRUIR UN NUMERO RACIONAL
-			Racional r1 = new Racional(numerador, denominador);
+			Persona persona1 = new Persona(textoDNI, textoNombre, textoApellidos,
+					FechaDia, FechaMes, FechaAño);
 
 					
 			//MENSAJE SI ES MENOR QUE 0
-			if (numerador < 0 || denominador < 0) {
-				JOptionPane.showMessageDialog(this, "Error al Insertar. El numero no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+			if (FechaDia < 0 || FechaMes < 0 || FechaAño < 0) {
+				JOptionPane.showMessageDialog(this, "Error al Insertar. Las Fechas no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
 				return;//salir del bloque
 			}
 			
 			
 			// VERIFICAR SI ESTA EN LA LISTA
-			if (dlm.contains(r1)) {
-				JOptionPane.showMessageDialog(this, "Error al Insertar. El Número " + r1.toString() + " ya esta en una de las listas.", "Error", JOptionPane.ERROR_MESSAGE);
+			if (dlm.contains(persona1)) {
+				JOptionPane.showMessageDialog(this, "Error al Insertar. El Número " + persona1.toString() + " ya esta en una de las listas.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;//salir del bloque
 							
 			}
@@ -202,28 +257,38 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 				int indice = 0;
 				int numeroElementos = dlm.size();
 				while (indice < numeroElementos) {
-					Racional numeroLista = dlm.get(indice);
-					if (r1.compareTo(numeroLista) < 0) {
+					Persona numeroLista = dlm.get(indice);
+					if (persona1.compareTo(numeroLista) < 0) {
 						indice++;
 					} else {break;}
 				}
-				dlm.add(indice, r1);
+				dlm.add(indice, persona1);
 			}	
 			lblTotalElementosValor.setText(String.valueOf(calcularTotalElementos()));
-			lblTotalSumaValor.setText(calcularTotalSuma().toString());
+			//lblTotalSumaValor.setText(calcularTotalSuma().toString());
 		}
 		
 		//BOTON BORRAR 
 		else if (botonSeleccionado == btnBorrar) {
 			
 			//OBTENER EL ELEMENTO SELECCIONADO Y GUARDARLOS EN UNA LISTA
-			int[] Arregloseleccionados = lstNumeros.getSelectedIndices();
+			
+			int[] Arregloseleccionados = lstPersonas.getSelectedIndices();
 
 			//SI NO HAY ELEMENTOS SELECICONADOS
 			if (Arregloseleccionados.length == 0) {
 				JOptionPane.showMessageDialog(this, "Error, no hay elementos seleccionados.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;//salir del bloque
 			}
+			
+			 // GUARDAR LOS ELEMENTOS SELECCIONADOS EN UNA LISTA
+		    ArrayList<Persona> ArraylistSeleccionados = new ArrayList<Persona>();
+		    for (int i = 0; i < Arregloseleccionados.length; i++) {
+		        // Obtener el índice de cada elemento seleccionado
+		        Persona personaSeleccionada = dlm.getElementAt(Arregloseleccionados[i]);
+		        ArraylistSeleccionados.add(personaSeleccionada);
+		    }
+			
 			//BORRAR LOS ELEMENTOS SELECCIONADOS
 			for (int i = Arregloseleccionados.length -1; i>= 0; i--) {
 				dlm.remove(Arregloseleccionados[i]);
