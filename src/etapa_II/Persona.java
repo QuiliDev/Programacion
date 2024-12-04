@@ -128,9 +128,19 @@ public class Persona implements Comparable<Persona> {
 	
 	@Override
 	public int compareTo(Persona objetocomparar) {
-		return (this.dni.compareTo(objetocomparar.dni));
+	    String dni1 = this.dni;
+	    String dni2 = objetocomparar.dni;
+	    
+	    // Comparar las letras
+	    int resultado = dni1.substring(0, 3).compareTo(dni2.substring(0, 3));
+	    if (resultado == 0) {
+	        // Comparar los números como enteros
+	        int num1 = Integer.parseInt(dni1.substring(3));
+	        int num2 = Integer.parseInt(dni2.substring(3));
+	        resultado = Integer.compare(num1, num2);
+	    }
+	    return resultado;
 	}
-	
 	
 	
 }

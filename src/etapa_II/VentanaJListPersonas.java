@@ -75,7 +75,7 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 	public VentanaJListPersonas() {
 		setTitle("VentanaJListPersonas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1350, 221);
+		setBounds(100, 100, 1420, 221);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -199,9 +199,9 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 	}
 	
 	//METODO PARA CALCULAR EL TOTAL DE ELEMENTOS
-	public int calcularTotalElementos() {
+	private void calcularTotalElementos() {
 		int totalElementos = dlm.size();
-		return totalElementos;
+		lblTotalElementosValor.setText(""+ totalElementos); // Actualiza el total
 		
 	}
 	
@@ -226,12 +226,12 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 	private void ordenarPersonas(String criterio, boolean ascendente) {
 	    // Obtener el ArrayList de personas
 	    ArrayList<Persona> listaPersonas = obtenerListaPersonas(); // Asegúrate de tener un método para obtener el ArrayList
-	    
+
 	    // Elegir el criterio de comparación
 	    switch (criterio) {
 	        case "DNI":
-	            // Ordenar por DNI usando el método compareTo
-	            listaPersonas.sort((p1, p2) -> p1.getDni().compareTo(p2.getDni()));
+	            // Ordenar por DNI utilizando el método compareTo
+	            listaPersonas.sort((p1, p2) -> p1.compareTo(p2));
 	            break;
 	        case "Nombre":
 	            // Ordenar por Nombre
@@ -318,21 +318,25 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 							
 			}
 			
-			// SI NO SE ENCUENTRA, AGREGARLO A LA LISTA (descendente)
+			
+			// SI NO SE ENCUENTRA, AGREGARLO A LA LISTA (ORDENADO ASCENDENTE DEFAULT)
 			else {
+				
+				//METODO 2  // si quieres ascendente el numero >, descendente el numero <
+				/*OTRA FORMA ES CREAR UNA VARIABLE BOOLEANA Y ANIADIR UNA CONDICION SI ES TRUE O FOLSE */
 				int indice = 0;
-				int numeroElementos = dlm.size();
-				while (indice < numeroElementos) {
-					Persona numeroLista = dlm.get(indice);
-					if (persona1.compareTo(numeroLista) < 0) {
-						indice++;
-					} else {break;}
-				}
-				dlm.add(indice, persona1);
-			}	
-			//ACTUALIZAR EL TOTAL
-			lblTotalElementosValor.setText(String.valueOf(calcularTotalElementos()));
-
+				boolean ordenAscendente = true; //cambiar a folse si quieres descendente
+				while (indice < dlm.size() && 
+						((ordenAscendente && persona1.compareTo(dlm.get(indice))>0) || 
+						(!ordenAscendente && persona1.compareTo(dlm.get(indice))< 0 ))) {
+					indice++;
+					
+				} 
+				
+				dlm.add(indice, persona1);	
+				//ACTUALIZAR EL TOTAL
+				calcularTotalElementos();
+			}
 		}
 		
 		//BOTON BORRAR 
@@ -354,8 +358,7 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 		        }
 			JOptionPane.showMessageDialog(this, "Elementos eliminados con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);			
 			//ACTUALIZAR EL TOTAL
-			lblTotalElementosValor.setText(String.valueOf(calcularTotalElementos())); // Actualiza el total
-			
+			calcularTotalElementos();
 			
 		}
 		else if (botonSeleccionado == btnLimpiar) {
@@ -368,8 +371,7 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 			}
 			
 			//ACTUALIZAR EL TOTAL
-			lblTotalElementosValor.setText(String.valueOf(calcularTotalElementos())); // Actualiza el total
-			
+			calcularTotalElementos();
 		}
 		//BOTON ORDENAR
 		
@@ -408,7 +410,7 @@ public class VentanaJListPersonas extends JFrame implements ActionListener{
 		//txtNumero.setText(String.valueOf(valor)); por si el arreglo seria tipo int
 		
 	    // Valores de prueba que deseas agregar
-	    String[] DNIPrueba = {"ABC1", "ABC2", "ABC3", "ABC4", "ABC5"};
+	    String[] DNIPrueba = {"ABC1", "ABC222", "ABC3", "ABC4", "ABC5"};
 	    String[] NombrePrueba = {"Pedro", "Juan", "Raul", "Marta", "Raul"};
 	    String[] ApellidoPrueba = {"Perez", "Gomez", "Lopez", "Garcia", "Lopez"};
 	    String[] FechaDia = {"11", "12", "13", "13", "13"};
