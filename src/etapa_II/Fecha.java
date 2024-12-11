@@ -112,11 +112,9 @@ public class Fecha implements Serializable{
 	}
 
 	public String toXML() {
-		String xml = "<fecha>\n";
-		xml += "<dia>" + this.dia + "</dia>\n";
+		String xml = "<dia>" + this.dia + "</dia>\n";
 		xml += "<mes>" + this.mes + "</mes>\n";
 		xml += "<anio>" + this.anio + "</anio>\n";
-		xml += "</fecha>\n";
 		return xml;
 	}
 	
