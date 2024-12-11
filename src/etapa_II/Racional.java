@@ -1,9 +1,13 @@
 package etapa_II;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Racional implements Comparable<Racional>{
+public class Racional implements Comparable<Racional>, Serializable{
 
+
+	private static final long serialVersionUID = 4029929143480592886L;
+	
 	private int numerador;	// Numerador
 	private int denominador;	// Denominador
 			

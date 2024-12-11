@@ -1,9 +1,11 @@
 package etapa_II;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Fecha {
+public class Fecha implements Serializable{
 	
+	private static final long serialVersionUID = -3725604523581528872L;
 	private int dia;
 	private int mes;
 	private int anio;
@@ -108,6 +110,16 @@ public class Fecha {
 	public int hashCode() {
 		return Objects.hash(dia, mes, anio);
 	}
+
+	public String toXML() {
+		String xml = "<fecha>\n";
+		xml += "<dia>" + this.dia + "</dia>\n";
+		xml += "<mes>" + this.mes + "</mes>\n";
+		xml += "<anio>" + this.anio + "</anio>\n";
+		xml += "</fecha>\n";
+		return xml;
+	}
+	
 	
 	
 }

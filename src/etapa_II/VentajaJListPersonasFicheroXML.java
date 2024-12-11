@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 
-public class VentanaJListPersonas extends JFrame implements ActionListener, WindowListener {
+public class VentajaJListPersonasFicheroXML extends JFrame implements ActionListener, WindowListener {
 
 	private static final long serialVersionUID = 20241127L;
 	private JPanel contentPane;
@@ -82,7 +82,7 @@ public class VentanaJListPersonas extends JFrame implements ActionListener, Wind
 	/**
 	 * Create the frame.
 	 */
-	public VentanaJListPersonas() {
+	public VentajaJListPersonasFicheroXML() {
 		setTitle("VentanaJListPersonas");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
@@ -542,6 +542,9 @@ public class VentanaJListPersonas extends JFrame implements ActionListener, Wind
         }
     }
 
+    public void exportarXML() {
+	    
+    }
     
 	@Override
 	public void windowClosing(WindowEvent e) {

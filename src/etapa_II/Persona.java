@@ -1,9 +1,11 @@
 package etapa_II;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Persona implements Comparable<Persona> {
+public class Persona implements Comparable<Persona>, Serializable {
 	
+	private static final long serialVersionUID = -3263859482296705000L;
 	private String dni;
 	private String nombre;
 	private String apellido;
@@ -140,6 +142,15 @@ public class Persona implements Comparable<Persona> {
 	        resultado = Integer.compare(num1, num2);
 	    }
 	    return resultado;
+	}
+	public String toXML() {
+		String xml = "<persona>\n";
+		xml += "<dni>" + this.dni + "</dni>\n";
+		xml += "<nombre>" + this.nombre + "</nombre>\n";
+		xml += "<apellido>" + this.apellido + "</apellido>\n";
+		xml += "<fechaNacimiento>" + this.fechaNacimiento.toXML() + "</fechaNacimiento>\n";
+		xml += "</persona>\n";
+		return xml;
 	}
 	
 	
