@@ -185,25 +185,25 @@ public class VentanaJListAlumnosFicheros extends JFrame implements ActionListene
 		panel_1.add(lblTotalElementosValor);
 		
 		// Inserto valores de prueba usando btnInsertar
-//		txtDNI.setText("8");
-//		txtNombre.setText("N8");
-//		txtApellidos.setText("A81 A82");
-//		btnInsertar.doClick();
-//		
-//		txtDNI.setText("4");
-//		txtNombre.setText("N4");
-//		txtApellidos.setText("A41 A42");
-//		btnInsertar.doClick();
-//		
-//		txtDNI.setText("6");
-//		txtNombre.setText("N6");
-//		txtApellidos.setText("A61 A62");
-//		btnInsertar.doClick();
-//		
-//		txtDNI.setText("9");
-//		txtNombre.setText("N9");
-//		txtApellidos.setText("A91 A92");
-//		btnInsertar.doClick();
+		txtDNI.setText("8");
+		txtNombre.setText("N8");
+		txtApellidos.setText("A81 A82");
+		btnInsertar.doClick();
+		
+		txtDNI.setText("4");
+		txtNombre.setText("N4");
+		txtApellidos.setText("A41 A42");
+		btnInsertar.doClick();
+		
+		txtDNI.setText("6");
+		txtNombre.setText("N6");
+		txtApellidos.setText("A61 A62");
+		btnInsertar.doClick();
+		
+		txtDNI.setText("9");
+		txtNombre.setText("N9");
+		txtApellidos.setText("A91 A92");
+		btnInsertar.doClick();
 		
 		// compruebo si ya esta
 		//btnInsertar.doClick();
@@ -211,7 +211,7 @@ public class VentanaJListAlumnosFicheros extends JFrame implements ActionListene
 		// compruebo campo vacio
 		//txtDNI.setText("");
 		//btnInsertar.doClick();
-		cargarDatos();
+		//cargarDatos();
 		DatosModificados = false;
 	}
 
@@ -408,6 +408,7 @@ public class VentanaJListAlumnosFicheros extends JFrame implements ActionListene
 			}
 		
 		}
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 	@Override
