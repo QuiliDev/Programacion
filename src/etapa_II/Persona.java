@@ -23,7 +23,7 @@ public class Persona implements Comparable<Persona>, Serializable {
 	
 	//METODO CONSTRUCTOR COPIA
 	public Persona(Persona objetocopia) {
-		this.dni = objetocopia.dni;
+		this.dni = objetocopia.dni;	
 		this.nombre = objetocopia.nombre;
 		this.apellido = objetocopia.apellido;
 		this.fechaNacimiento = new Fecha(objetocopia.fechaNacimiento);
@@ -36,6 +36,14 @@ public class Persona implements Comparable<Persona>, Serializable {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = new Fecha(dia, mes, anio);
+	}
+	
+	//METODO CONSTRUCTOR POR PARAMETRO
+	public Persona(String dni, String nombre, String apellido, Fecha fechaNacimiento) {
+	    this.dni = dni;
+	    this.nombre = nombre;
+	    this.apellido = apellido;
+	    this.fechaNacimiento = fechaNacimiento;  // No necesitas crear un nuevo objeto Fecha
 	}
 	
 	

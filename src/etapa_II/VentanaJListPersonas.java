@@ -383,11 +383,11 @@ public class VentanaJListPersonas extends JFrame implements ActionListener, Wind
 			}else {
 				dlm.clear();
 		        JOptionPane.showMessageDialog(this, "Lista Limpiada con exito", "Información", JOptionPane.INFORMATION_MESSAGE);
-		        
+
+				DatosModificados = true;
 			}
 
 			//datos modificados
-			DatosModificados = true;
 			//ACTUALIZAR EL TOTAL
 			calcularTotalElementos();
 		}
