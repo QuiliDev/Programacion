@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="alumnos.xsd"?>
+<?xml-stylesheet type="text/xsl" href="alumnos.xsl"?>
+<alumnos>
+<alumno>
+<dni>4</dni>
+<nombre>N4</nombre>
+<apellido>A41 A42</apellido>
+<fechaNacimiento><dia>1</dia>
+<mes>1</mes>
+<anio>2024</anio>
+</fechaNacimiento>
+</alumno>
+<alumno>
+<dni>6</dni>
+<nombre>N6</nombre>
+<apellido>A61 A62</apellido>
+<fechaNacimiento><dia>1</dia>
+<mes>1</mes>
+<anio>2024</anio>
+</fechaNacimiento>
+</alumno>
+<alumno>
+<dni>8</dni>
+<nombre>N8</nombre>
+<apellido>A81 A82</apellido>
+<fechaNacimiento><dia>1</dia>
+<mes>1</mes>
+<anio>2024</anio>
+</fechaNacimiento>
+</alumno>
+<alumno>
+<dni>9</dni>
+<nombre>N9</nombre>
+<apellido>A91 A92</apellido>
+<fechaNacimiento><dia>1</dia>
+<mes>1</mes>
+<anio>2024</anio>
+</fechaNacimiento>
+</alumno>
+</alumnos>

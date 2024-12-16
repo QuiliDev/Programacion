@@ -39,11 +39,13 @@ public class Persona implements Comparable<Persona>, Serializable {
 	}
 	
 	//METODO CONSTRUCTOR POR PARAMETRO
-	public Persona(String dni, String nombre, String apellido, Fecha fechaNacimiento) {
+	public Persona(String dni, String nombre, String apellido,
+			Fecha fecha) {
 	    this.dni = dni;
 	    this.nombre = nombre;
 	    this.apellido = apellido;
-	    this.fechaNacimiento = fechaNacimiento;  // No necesitas crear un nuevo objeto Fecha
+	    //this.fechaNacimiento = fechaNacimiento;  // No necesitas crear un nuevo objeto Fecha
+	    this.fechaNacimiento= new Fecha(fecha.getDia(), fecha.getMes(), fecha.getAnio());
 	}
 	
 	

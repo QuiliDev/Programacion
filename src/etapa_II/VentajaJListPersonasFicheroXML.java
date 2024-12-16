@@ -7,12 +7,15 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.BorderLayout;
@@ -206,8 +209,9 @@ public class VentajaJListPersonasFicheroXML extends JFrame implements ActionList
 		lblTotalElementosValor.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(lblTotalElementosValor);
 		
+
 		//DATOS DE PRUEBA
-		cargarDatos();
+		//cargarDatos();
 		//DatosdePrueba();
 		DatosModificados = false;
 	}
@@ -423,6 +427,11 @@ public class VentajaJListPersonasFicheroXML extends JFrame implements ActionList
 		    //No se ha seleccionado un criterio
 		}
 		
+//		else if (botonSeleccionado == btnExportXML) {
+//			exportarXML();
+//			
+//		}
+		
 	}
 	
 	public void DatosdePrueba() {
@@ -545,47 +554,49 @@ public class VentajaJListPersonasFicheroXML extends JFrame implements ActionList
     }
 
     public void exportarXML() {
-    	
-    	FileOutputStream fos;
-		BufferedOutputStream bos;
+
+    	FileWriter fichero = null;
+    	PrintWriter pw = null;
+    	BufferedWriter bw = null;
+		
 		try {
+			fichero = new FileWriter("personas.xml");
+			pw = new PrintWriter(fichero);
+			bw = new BufferedWriter(pw);
 			
-			fos = new FileOutputStream("logo.png");
-			bos = new BufferedOutputStream(fos);
-			//SI ABRO LOGO.PNG EN MODO LECTURA
-			// ABRO/CREO LOGOCOPOIA.PNG EN MODO ESCRITURA
-			FileInputStream fis = new FileInputStream("logocopia.png");
-			BufferedInputStream bis = new BufferedInputStream(fis);
+			//Escrbio el codigo xml en el fichero
+			String codigoxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+			codigoxml += "<?xml-model href=\"personas.xsd\"?>\r\n";
+			codigoxml += "<?xml-stylesheet type=\"text/xsl\" href=\"personas.xsl\"?>\n";
+			codigoxml += "<personas>\n";
+			for (int i=0; i<dlm.size(); i++) {
+				Persona persona = dlm.get(i);
+				codigoxml += persona.toXML();
+			}
+			codigoxml += "</personas>\n";
 			
-			byte [] datos = new byte[512];
-			int bytesLeidos = bis.read(datos);
-            // Leer y escribir en bloques de 512 bytes
-            while ((bytesLeidos) != -1) {
-                // Si leemos algo, escribimos esos datos en el archivo de destino
-                bos.write(datos, 0, bytesLeidos);
-                
-                // Leo el siguiente bloque de logo.png
-                bytesLeidos = bis.read(datos);
-                
-            }
-			//libero recuersos
-			bis.close();
-			fis.close();
-			bos.close();
-			fos.close();
+			bw.write(codigoxml);
+            JOptionPane.showMessageDialog(this, "Se ha exportado correctamente el documento XML.", 
+                                          "Guardar datos", JOptionPane.INFORMATION_MESSAGE);
+			// LIBERO LOS RECURSOS
+			
+			bw.close();
+			pw.close();
+			fichero.close();
 			
 			
-		} catch (FileNotFoundException e) {
-			System.out.println("Error, El fichero no existe.");
 		} catch (IOException e) {
-			System.out.println("Error, 	El fichero no existe.");
+			
+			JOptionPane.showMessageDialog(this, "Error al exportar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-	    
+    	
+    	
     }
     
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println(DatosModificados);
 		if (DatosModificados) {
             // Muestra el cuadro de confirmación con opciones SÍ y NO
             int opcion = JOptionPane.showConfirmDialog(this, 
@@ -624,6 +635,9 @@ public class VentajaJListPersonasFicheroXML extends JFrame implements ActionList
 //            // Si no hay modificaciones, cierra la aplicación sin mostrar mensaje
 //            System.exit(0);
 //        }
+		}
+		else {
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 	}
 

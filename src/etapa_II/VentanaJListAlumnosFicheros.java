@@ -5,12 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -53,6 +56,7 @@ public class VentanaJListAlumnosFicheros extends JFrame implements ActionListene
 	private JLabel lblGrupo;
 	private JComboBox<String> cmbGrupos;
 	public boolean DatosModificados;
+	private JButton btnExportarXML;
 	
 	
 	/**
@@ -184,6 +188,10 @@ public class VentanaJListAlumnosFicheros extends JFrame implements ActionListene
 		lblTotalElementosValor.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(lblTotalElementosValor);
 		
+		btnExportarXML = new JButton("Exportar a XML");
+		panel_1.add(btnExportarXML);
+		btnExportarXML.addActionListener(this);
+		
 		// Inserto valores de prueba usando btnInsertar
 		txtDNI.setText("8");
 		txtNombre.setText("N8");
@@ -242,15 +250,15 @@ public class VentanaJListAlumnosFicheros extends JFrame implements ActionListene
 				int mes = Integer.parseInt(textoMes);
 				String textoAño = txtAño.getText();
 				int año = Integer.parseInt(textoAño);
-				//Fecha fecha = new Fecha(dia,mes,año);
+				Fecha fecha = new Fecha(dia,mes,año);
 				
 				// creo una nueva Persona
-				//Persona persona = new Persona(textoDNI,textoNombre,textoApellidos,fecha);
+				Persona persona = new Persona(textoDNI,textoNombre,textoApellidos,fecha);
 				
 				// creo un nuevo Alumno
 				String grupo = (String) cmbGrupos.getSelectedItem();
-				//Alumno valor = new Alumno(persona,grupo);
-				Alumno valor = new Alumno(textoDNI,textoNombre,textoApellidos,dia,mes,año,grupo);
+				Alumno valor = new Alumno(persona,grupo);
+				//Alumno valor = new Alumno(textoDNI,textoNombre,textoApellidos,dia,mes,año,grupo);
 				
 				if (dlm.contains(valor)) {
 					// si ya esta en la lista
@@ -311,6 +319,10 @@ public class VentanaJListAlumnosFicheros extends JFrame implements ActionListene
 				DatosModificados = true;
 			}
 		}
+		else if(o == btnExportarXML) {
+			exportarXML();
+		}
+		
 		
 	}
 	
@@ -374,6 +386,47 @@ public class VentanaJListAlumnosFicheros extends JFrame implements ActionListene
         }
     }
 	
+    
+    public void exportarXML() {
+
+    	FileWriter fichero = null;
+    	PrintWriter pw = null;
+    	BufferedWriter bw = null;
+		
+		try {
+			fichero = new FileWriter("alumnos.xml");
+			pw = new PrintWriter(fichero);
+			bw = new BufferedWriter(pw);
+			
+			//Escrbio el codigo xml en el fichero
+			String codigoxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+			codigoxml += "<?xml-model href=\"alumnos.xsd\"?>\r\n";
+			codigoxml += "<?xml-stylesheet type=\"text/xsl\" href=\"alumnos.xsl\"?>\n";
+			codigoxml += "<alumnos>\n";
+			for (int i=0; i<dlm.size(); i++) {
+				Alumno alumno = dlm.get(i);
+				codigoxml += alumno.toXML();
+			}
+			codigoxml += "</alumnos>\n";
+			
+			bw.write(codigoxml);
+            JOptionPane.showMessageDialog(this, "Se ha exportado correctamente el documento XML.", 
+                                          "Guardar datos", JOptionPane.INFORMATION_MESSAGE);
+			// LIBERO LOS RECURSOS
+			
+			bw.close();
+			pw.close();
+			fichero.close();
+			
+			
+		} catch (IOException e) {
+			
+			JOptionPane.showMessageDialog(this, "Error al exportar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+    	
+    	
+    }
+    
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub

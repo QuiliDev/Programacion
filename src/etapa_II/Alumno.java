@@ -37,4 +37,16 @@ public class Alumno extends Persona implements Serializable {
         return this.getDni().compareTo(otro.getDni()); // Asumiendo que `dni` es un campo heredado de la clase `Persona`
     }
 	
+	
+	public String toXML() {
+	    // Accede directamente a los métodos de la clase Persona
+	    String xml = "<alumno>\n";
+	    xml += "<dni>" + this.getDni() + "</dni>\n";  // Usa getDni() heredado de Persona
+	    xml += "<nombre>" + this.getNombre() + "</nombre>\n";  // Usa getNombre() heredado de Persona
+	    xml += "<apellido>" + this.getApellido() + "</apellido>\n";  // Usa getApellido() heredado de Persona
+	    xml += "<fechaNacimiento>" + this.getFechaNacimiento().toXML() + "</fechaNacimiento>\n";  // Usa getFechaNacimiento() heredado de Persona
+	    xml += "</alumno>\n";
+	    return xml;
+	}
+
 }
